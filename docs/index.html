@@ -5,6 +5,22 @@
     <meta charset="utf-8">
     <title>D3.js</title>
     <script type="text/javascript" src="d3.min.js"></script>
+    <script>
+
+        d3.csv("value.csv", function(error, list){
+            d3.select("#result")
+                .append("table")
+                .selectAll("tr")
+                .data(list)
+                .enter()
+                .append("tr")
+                .append("td")
+                .text(function(d){
+                    return d["value"];
+                })
+        });
+
+    </script>
   </head>
   <body>
     <h1>D3.js</h1>
