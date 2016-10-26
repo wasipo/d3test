@@ -38,8 +38,10 @@
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
  
     // データを読み込む
-    d3.tsv("value.csv", type, function(error, data) {
+    d3.csv("value.csv", type, function(error, data) {
         // データを入力ドメインとして設定
+        // ドメインについて調べる
+        //　これが範囲選択っぽい
         x.domain(data.map(function(d) { return d.letter; }));
         y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
  
