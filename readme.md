@@ -1,6 +1,6 @@
 
 
-###これはなに
+#これはなに
 
 d3.jsのV4練習してます。
 グラフ作成してます。
@@ -17,7 +17,7 @@ d3.jsのV4練習してます。
 
 ##わかったこと
 
-`
+```javascript:index.html
 
 var xAxis = xScale
                 .tickSize(6, -height)
@@ -51,4 +51,8 @@ svg.selectAll("circle")
                 .attr("cx", function(d){ return xLiner(d["year"]);}) ←　なんか知らないけどよきに計らってくれる
                 .attr("cy", function(d){ return yLiner(d["gdp"]);})
 
-`
+
+```
+
+
+
