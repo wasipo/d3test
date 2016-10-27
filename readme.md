@@ -1,21 +1,21 @@
 
 
-#これはなに
+#これはなに    
 
-d3.jsのV4練習してます。
-グラフ作成してます。
-知ってる人は教えてください！
-
-
-##ブックマーク
-<http://qiita.com/mojaie/items/be0a3eaf84273e2d42e7>
-<http://qiita.com/shoki_kitajima/items/34ad6e2209fde5b4dedc>
-<https://bl.ocks.org/mbostock/3310323>
-<https://bl.ocks.org/d3noob/402dd382a51a4f6eea487f9a35566de0>
-<http://dataisfun.org/2014/05/12/?p=206>
+d3.jsのV4練習してます。  
+グラフ作成してます。  
+知ってる人は教えてください！  
 
 
-##わかったこと
+##ブックマーク  
+<http://qiita.com/mojaie/items/be0a3eaf84273e2d42e7>  
+<http://qiita.com/shoki_kitajima/items/34ad6e2209fde5b4dedc>  
+<https://bl.ocks.org/mbostock/3310323>  
+<https://bl.ocks.org/d3noob/402dd382a51a4f6eea487f9a35566de0>  
+<http://dataisfun.org/2014/05/12/?p=206>  
+
+
+##わかったこと  
 
 ```javascript:index.html
 
@@ -35,8 +35,8 @@ var yLiner = d3.scaleLinear()
                 .domain([480,530])
                 .range([height,0]);
 
-var xScale = d3.axisBottom(xLiner)　←　ここも変わっている。前はaxis().***().***()だった。***().***()の部分はscaleLinerに書いてる
-        
+var xScale = d3.axisBottom(xLiner)　←　ここも変わっている。
+         								前はaxis().***().***()だった。***().***()の部分はscaleLinerに書いてる
 var yScale = d3.axisLeft(yLiner)
 
 
