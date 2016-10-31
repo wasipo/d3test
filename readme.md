@@ -8,7 +8,7 @@ d3.jsのV4練習してます。
 
 
 ##ブックマーク  
-<http://stone-book.hatenablog.com/entry/2016/10/21/004019>
+<http://stone-book.hatenablog.com/entry/2016/10/21/004019>  
 <http://qiita.com/mojaie/items/be0a3eaf84273e2d42e7>  
 <http://qiita.com/shoki_kitajima/items/34ad6e2209fde5b4dedc>  
 <https://bl.ocks.org/mbostock/3310323>  
