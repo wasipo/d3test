@@ -20,6 +20,13 @@ svg .pumpkin {
    stroke: orange;
    stroke-width: 5;
 }
+
+.line {
+    fill: none;
+  stroke: DarkGreen;
+  stroke-width: 1.5px;
+}
+
 -->
 </style>
   </head>
@@ -88,7 +95,7 @@ var yAxis = yScale
 var line = d3.line()
                 .x(function(d) { return xLiner(d["year"]); })
                 .y(function(d) { return yLiner(d["gdp"]); })
-                 // 線の形を決める。
+                .curve(d3.curveLinear);
  
 svg.selectAll("circle")
                 .data(gdp)
@@ -106,7 +113,7 @@ svg.selectAll("circle")
 
 svg.append("g")
     .attr("class", "y axis")
-    .call(yScale)
+    .call(yAxis)
     .append("text")
       .attr("y", -10)
       .attr("x",10)
@@ -116,7 +123,7 @@ svg.append("g")
 svg.append("g")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + height + ")")
-    .call(xScale);
+    .call(xAxis);
 
 svg.append("path")
      .datum(gdp)
