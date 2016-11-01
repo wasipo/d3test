@@ -5,14 +5,6 @@
     <meta charset="utf-8">
     <title>D3.js</title>
     <script type="text/javascript" src="d3.min.js"></script>
-<!--    <script src="https://d3js.org/d3-array.v1.min.js"></script>
-    <script src="https://d3js.org/d3-collection.v1.min.js"></script>
-    <script src="https://d3js.org/d3-color.v1.min.js"></script>
-    <script src="https://d3js.org/d3-format.v1.min.js"></script>
-    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
-    <script src="https://d3js.org/d3-time.v1.min.js"></script>
-    <script src="https://d3js.org/d3-time-format.v2.min.js"></script>
-    <script src="https://d3js.org/d3-scale.v1.min.js"></script> -->
 <style type="text/css">
 <!--
 svg .pumpkin {
@@ -24,7 +16,7 @@ svg .pumpkin {
 .line {
     fill: none;
   stroke: DarkGreen;
-  stroke-width: 1.5px;
+  stroke-width: 3px;
 }
 
 -->
@@ -36,99 +28,98 @@ svg .pumpkin {
   </body>
     <script>
 
-    var margin = {
+//グラフエリア表示位置、サイズ設定
+var margin = {
                 top: 20, 
                 right: 20, 
                 bottom: 30, 
                 left: 40
             }
-    var width = 960 - margin.left - margin.right
-    var height = 500 - margin.top - margin.bottom
+var width = 960 - margin.left - margin.right
+var height = 500 - margin.top - margin.bottom
  
-
-
-
-
-var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 700 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
  
+//グラフ表示エリア作成
 var svg = d3.select("body").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
  
-var gdp = [
-            {year: 2007, gdp: 524, updown: "up"},
-            {year: 2008, gdp: 518, updown: "down"},
-            {year: 2009, gdp: 490, updown: "down"},
-            {year: 2010, gdp: 512, updown: "up"},
-            {year: 2011, gdp: 510, updown: "down"},
-            {year: 2012, gdp: 517, updown: "up"},
-            {year: 2013, gdp: 525, updown: "up"}
-            ];
- 
-var xLiner = d3.scaleLinear()
-                .domain([2006,2014])
-                .range([0,width]);
+//x軸の属性設定（ただの線か時間か？曖昧）
+var x = d3.scaleLinear()
+                .range([0,width])
 
-var yLiner = d3.scaleLinear()
-                .domain([480,530])
-                .range([height,0]);
+//y軸の属性設定（ただの線か時間か？曖昧）
+var y = d3.scaleLinear()
+                .range([height,0])
 
-var xScale = d3.axisBottom(xLiner)
-        
-var yScale = d3.axisLeft(yLiner)
+//var colorCategoryScale = d3.scaleOrdinal(d3.schemeCategory10);
 
-
-var colorCategoryScale = d3.scaleOrdinal(d3.schemeCategory10);
- 
-var xAxis = xScale
-                .tickSize(6, -height)
-                .tickFormat(function(d){ return d+"年"; });
- 
-var yAxis = yScale
-                .ticks(5)
-                .tickSize(6, -width);
- 
+//線の値設定  
 var line = d3.line()
-                .x(function(d) { return xLiner(d["year"]); })
-                .y(function(d) { return yLiner(d["gdp"]); })
+                .x(function(d) { return x(d.Year); })
+                .y(function(d) { return y(d.Price); })
                 .curve(d3.curveLinear);
- 
-svg.selectAll("circle")
-                .data(gdp)
-                .enter()
-                .append("circle")
-                .attr("r",5)
-                .attr("fill", function(d){ return colorCategoryScale(d["updown"]); })
-                .attr("cx", function(d){ 
-                                        return xLiner(d["year"]);
-                                    })
-                .attr("cy", function(d){ 
-                                        return yLiner(d["gdp"]);
-                                    });
-// line表示。
 
-svg.append("g")
-    .attr("class", "y axis")
-    .call(yAxis)
-    .append("text")
-      .attr("y", -10)
-      .attr("x",10)
-      .style("text-anchor", "end")
-      .text("GDP(兆円)");
- 
-svg.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(xAxis);
 
-svg.append("path")
-     .datum(gdp)
-     .attr("class", "line")
-     .attr("d", line); 
+d3.csv("value.csv", function(error, data){
+
+
+    // d3.selectAll("circle")
+    //             .data([data])
+    //             .enter()
+    //             .append("circle")
+    //             .attr("r",5)
+    //             .attr("cx", function(d){ 
+    //                                     return x(d.Year);
+    //                                 })
+    //             .attr("cy", function(d){ 
+    //                                     return y(d.Price);
+    //                                 });
+
+    //x軸とy軸の数値設定
+    x.domain(d3.extent(data, function(d) { return d.Year; }));
+    y.domain([0, d3.max(data, function(d) { return d.Price; })]);
+
+    //dataにcsvの中身を全部入れているが、
+    //lineの中の.x.yの引数の中で値が設定されている
+    //この場合だとyがpriceでxが年
+    svg.append("path")
+         .data([data])
+         .attr("class", "line")
+         .attr("d", line); 
+
+    //y軸の表示設定
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(d3.axisLeft(y))
+
+     
+     //x軸の表示設定
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x).tickSize(6, -height).tickFormat(function(d){ 
+                     return d+"年"; 
+        }));
+
+
+});
+
+
+
+// var xAxis = xScale
+//                 .tickSize(6, -height)
+//                 .tickFormat(function(d){ 
+//                     return d+"年"; 
+//                 });
+ 
+// var yAxis = yScale
+//                 .ticks(5)
+//                 .tickSize(6, -width);
+
+
 
     </script>
 </html>
